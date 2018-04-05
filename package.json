@@ -1,7 +1,7 @@
 {
-  "name": "node-example",
+  "name": "jswhale",
   "version": "0.0.1",
-  "description": "buildpack node example",
+  "description": "THE jswhale in node",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

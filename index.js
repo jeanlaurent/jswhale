@@ -5,4 +5,4 @@ const app = express()
 
 app.use('/', express.static(path.join(__dirname, 'static')))
 
-app.listen(3000, () => console.log('build pack app listening on port 3000!'))
+app.listen(3000, () => console.log('jswhale listening on port 3000!'))
