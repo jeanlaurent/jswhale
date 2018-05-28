@@ -1,13 +1,17 @@
 {
   "name": "jswhale",
   "version": "0.0.1",
-  "description": "THE jswhale in node",
+  "description": "THE js docker whale in node",
   "main": "index.js",
+  "repository" : { 
+    "type" : "git", 
+    "url" : "https://github.com/jeanlaurent/jswhale.git"
+  },
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "jeanlaurent@docker.com",
+  "license": "UNLICENSED", 
   "dependencies": {
     "express": "4.16.2"
   }
