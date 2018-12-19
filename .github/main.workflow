@@ -1,28 +1,28 @@
-workflow "New workflow" {
+workflow "Deploy jshwale" {
   on = "push"
-  resolves = ["docker://docker.io/jeanlaurent/slackclient"]
+  resolves = ["Slack Ping"]
 }
 
-action "GitHub Action for Docker" {
+action "Build jswhale" {
   uses = "actions/docker/cli@76ff57a"
   args = "build -t jeanlaurent/jswhale ."
 }
 
-action "Docker Registry" {
+action "Login to Docker Registry" {
   uses = "actions/docker/login@76ff57a"
-  needs = ["GitHub Action for Docker"]
+  needs = ["Build jswhale"]
   secrets = ["DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
-action "GitHub Action for Docker-1" {
+action "Push to Hub" {
   uses = "actions/docker/cli@76ff57a"
-  needs = ["Docker Registry"]
+  needs = ["Login to Docker Registry"]
   args = "push jeanlaurent/jswhale"
 }
 
-action "docker://docker.io/jeanlaurent/slackclient" {
+action "Slack Ping" {
   uses = "docker://jeanlaurent/slackclient"
-  needs = ["GitHub Action for Docker-1"]
+  needs = ["Push to Hub"]
   secrets = ["SLACK_WEBHOOK"]
-  args = "slack jeanlaurent/jswhale push to hub via github actions"
+  args = "slack jeanlaurent/jswhale pushed to hub via github actions"
 }
