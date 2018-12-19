@@ -23,15 +23,9 @@ action "Push to Hub" {
   args = "push jeanlaurent/jswhale"
 }
 
-action "Docker pull" {
-  uses = "actions/docker/cli@76ff57a"
+action "Ping On Slack" {
+  uses = "docker://jeanlaurent/slack"
   needs = ["Push to Hub"]
-  args = "pull jeanlaurent/slackclient"
-}
-
-action "PIng On Slack" {
-  uses = "docker://jeanlaurent/slackclient"
-  needs = ["Docker pull"]
   args = "slack jeanlaurent/jswhale pushed to hub via github actions"
   secrets = ["SLACK_WEBHOOK"]
 }
