@@ -1,6 +1,9 @@
 workflow "Deploy jshwale" {
   on = "push"
-  resolves = ["Slack Ping"]
+  resolves = [
+    "Push to Hub",
+    "PIng On Slack",
+  ]
 }
 
 action "Build jswhale" {
@@ -20,9 +23,15 @@ action "Push to Hub" {
   args = "push jeanlaurent/jswhale"
 }
 
-action "Slack Ping" {
-  uses = "docker://jeanlaurent/slackclient"
+action "Docker pull" {
+  uses = "actions/docker/cli@76ff57a"
   needs = ["Push to Hub"]
-  secrets = ["SLACK_WEBHOOK"]
+  args = "pull jeanlaurent/slackclient"
+}
+
+action "PIng On Slack" {
+  uses = "docker://jeanlaurent/slackclient"
+  needs = ["Docker pull"]
   args = "slack jeanlaurent/jswhale pushed to hub via github actions"
+  secrets = ["SLACK_WEBHOOK"]
 }
