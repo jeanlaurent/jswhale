@@ -1,5 +1,5 @@
 
-FROM node:9.11-alpine
+FROM node:10.14.2-alpine
 
 # only for HealthCheck
 RUN apk add --no-cache curl 
