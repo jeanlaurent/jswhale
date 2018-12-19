@@ -1,6 +1,6 @@
 workflow "New workflow" {
   on = "push"
-  resolves = ["docker://jeanlaurent/slackclient"]
+  resolves = ["docker://docker.io/jeanlaurent/slackclient"]
 }
 
 action "GitHub Action for Docker" {
@@ -20,9 +20,9 @@ action "GitHub Action for Docker-1" {
   args = "push jeanlaurent/jswhale"
 }
 
-action "docker://jeanlaurent/slackclient" {
+action "docker://docker.io/jeanlaurent/slackclient" {
   uses = "docker://jeanlaurent/slackclient"
   needs = ["GitHub Action for Docker-1"]
   secrets = ["SLACK_WEBHOOK"]
-  runs = "slack"
+  args = "slack jeanlaurent/jswhale push to hub via github actions"
 }
