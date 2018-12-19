@@ -1,9 +1,6 @@
 workflow "Deploy jshwale" {
   on = "push"
-  resolves = [
-    "Push to Hub",
-    "PIng On Slack",
-  ]
+  resolves = ["Ping On Slack"]
 }
 
 action "Build jswhale" {
