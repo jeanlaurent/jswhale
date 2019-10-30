@@ -11,8 +11,7 @@ jobs:
     - name: Login to Docker Registry
       env:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      run: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+      run: echo "$DOCKER_PASSWORD" | docker login --username jeanlaurent --password-stdin
     - name: Push to Hub
       run: docker push jeanlaurent/whale
     - name: Ping On Slack
