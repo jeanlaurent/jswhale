@@ -1,27 +1,23 @@
 on: push
-name: Deploy jshwale
+name: Deploy whale
 jobs:
-  buildJswhale:
-    name: Build jswhale
+  buildWhale:
+    name: Build whale
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Build jswhale
-      uses: actions/docker/cli@76ff57a
-      with:
-        args: build -t jeanlaurent/jswhale .
+    - name: Build whale
+      run: docker build -t jeanlaurent/whale .
     - name: Login to Docker Registry
-      uses: actions/docker/login@76ff57a
       env:
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      run: echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
     - name: Push to Hub
-      uses: actions/docker/cli@76ff57a
-      with:
-        args: push jeanlaurent/jswhale
+      run: docker push jeanlaurent/whale
     - name: Ping On Slack
       uses: docker://jeanlaurent/slack
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       with:
-        args: slack jeanlaurent/jswhale pushed to hub via github actions
+        args: slack jeanlaurent/whale pushed to hub via github actions
