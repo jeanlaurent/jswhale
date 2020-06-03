@@ -1,2 +1,2 @@
-FROM nginx:1.17.5-alpine
+FROM nginx:1.19.0-alpine
 COPY static /usr/share/nginx/html
