@@ -49,8 +49,9 @@ jobs:
             com.atomist.containers.image.dockerfile=Dockerfile      
 
     - name: Ping On Slack
+      if: github.event_name != 'pull_request'
       uses: docker://jeanlaurent/slack
       env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       with:
-        args: slack jeanlaurent/whale pushed to hub via github actions
+        args: slack jeanlaurent/whale pushed to hub via github actions from ${{GitHub.ref}}
