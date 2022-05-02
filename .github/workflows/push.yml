@@ -29,7 +29,8 @@ jobs:
             jeanlaurent/whale
          tags: |
             type=ref,event=branch
-            type=raw,value=latest,enable={{is_default_branch}}    
+            type=ref,event=tag
+            type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             
     - name: Build and push
       uses: docker/build-push-action@v2
