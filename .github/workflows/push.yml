@@ -27,7 +27,7 @@ jobs:
       with:
          images: |
             jeanlaurent/whale
-         tags:
+         tags: |
             type=ref,event=branch
             type=raw,value=latest,enable={{is_default_branch}}    
             
