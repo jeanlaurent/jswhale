@@ -18,28 +18,23 @@ jobs:
       uses: docker/setup-buildx-action@v1      
 
     - name: Login to DockerHub
+      if: github.event_name != 'pull_request'
       uses: docker/login-action@v1
       with:
           username: jeanlaurent
           password: ${{ secrets.DOCKER_PASSWORD }}
-          
-    - name: Creating Docker Image Labels
-      id: meta
-      uses: docker/metadata-action@v3
-      with:
-         images: |
-            jeanlaurent/whale
-         labels: |
-            com.atomist.containers.image.dockerfile=Dockerfile
     
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
           context: .
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: jeanlaurent/whale
-          labels: ${{ steps.meta.outputs.labels }}          
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            com.atomist.containers.image.dockerfile=Dockerfile      
 
     - name: Ping On Slack
       uses: docker://jeanlaurent/slack
