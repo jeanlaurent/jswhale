@@ -1,3 +1,2 @@
-FROM nginx:1.21.4-alpine
-RUN apk add -u brotli-libs
+FROM nginx:1.21.6-alpine
 COPY static /usr/share/nginx/html
