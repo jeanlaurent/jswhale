@@ -12,26 +12,37 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-      
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
-      
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
 
-    - name: Login to DockerHub
-      if: github.event_name != 'pull_request'
+    - name: Login to Docker Hub
       uses: docker/login-action@v2
       with:
-          username: jeanlaurent
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          
+        username: dockerbuildbot
+        password: ${{ secrets.DOCKERBUILDBOT_WRITE_PAT }}
+
+    - name: Generate app token
+      id: app_token
+      uses: tibdex/github-app-token@v1
+      with:
+        app_id: ${{ vars.DOCKER_READ_APP_ID }}
+        private_key: ${{ secrets.DOCKER_READ_APP_PRIVATE_KEY }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver: cloud
+        use: true
+        install: true
+        endpoint: docker/platform-experience
+        version: https://github.com/docker/buildx-private.git#cloud
+      env:
+        GIT_AUTH_TOKEN: ${{ steps.app_token.outputs.token }}
+      
     - name: Creating Docker Image Labels
       id: meta
       uses: docker/metadata-action@v4
       with:
          images: |
-            jeanlaurent/whale
+            docker/jlwhale
          tags: |
             type=ref,event=branch
             type=ref,event=tag
