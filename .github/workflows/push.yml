@@ -1,4 +1,5 @@
 name: Deploy whale
+
 on:
   push:
     branches:
@@ -27,7 +28,7 @@ jobs:
           
     - name: Creating Docker Image Labels
       id: meta
-      uses: docker/metadata-action@v3
+      uses: docker/metadata-action@v4
       with:
          images: |
             jeanlaurent/whale
@@ -37,16 +38,15 @@ jobs:
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             
     - name: Build and push
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v5
       with:
           context: .
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
+          sbom: true
+          provenance: mode=max
           tags: ${{ steps.meta.outputs.tags }}
-          labels: |
-            org.opencontainers.image.revision=${{ github.sha }}
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            com.atomist.containers.image.dockerfile=Dockerfile      
+          labels: ${{ steps.meta.outputs.labels }}
 
     - name: Ping On Slack
       if: github.event_name != 'pull_request'
