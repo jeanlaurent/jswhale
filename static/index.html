@@ -53,12 +53,34 @@
       to {background-position: 201px 0;}
     }
   </style>
+  <script>
+    var sentences = [
+        "Hello, World!",
+        "System.out.println(\"Hello, World!\");",
+        "console.log(\"Hello, World!\");",
+        "printf(\"Hello, World!\n\");",
+        "cout << \"Hello, World!\" << endl;"
+      ];
+    var txt = sentences[Math.floor(Math.random() * sentences.length)];
+    var i = 0;
+    var speed = 100;
+    function typeWriter() {
+      if (i < txt.length) {
+        document.getElementById("hello").innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    window.onload = function() {
+      typeWriter();
+    };
+  </script>
 </head>
 <body>
   <img id="whale" src="whale300.png"/>
   <div id="waves"></div>
   <div id="sea">
-    <div id="hello">Hello from Docker !</div>
+    <div id="hello"></div>
   </div>
 </body>
 </html>
