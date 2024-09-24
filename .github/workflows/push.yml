@@ -35,7 +35,6 @@ jobs:
          images: |
             jeanlaurent/whale
          tags: |
-            type=ref,event=branch
             type=ref,event=tag
             type=raw,value=latest,enable=${{ endsWith(GitHub.ref, 'master') }}
             
